@@ -5,12 +5,34 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
 </head>
 <body>
-Войти через ВК/Google
-<a href="/login/vk-oauth2">вк вход</a>
-<br>
-<a href='#'>Login with Google</a>
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="text-center">
+                <h1>Сохрани свои воспоминания!</h1>
+                <h5>Привет! Этот сайт поможет вам не забыть ни одного прекраского
+                    мнгновения проведенного в разных уголках планеты, но прежде чем начать...</h5><br>
+                <h5>Авторизуйтесь через:</h5>
+                <a class="btn btn-primary btn-lg " role="button"
+                   href="http://localhost:8000/accounts/vk/login/callback/">Вконтакте</a>
+                <a class="btn btn-danger btn-lg btn-block" role="button"
+                   href="{% url 'google_callback' %}">Google</a>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+{{ auth_error }}
+
+
+
+<!--<a href="/login/vk-oauth2">вк вход</a>-->
+<!--<br>-->
+<!--<a href='#'>Login with Google</a>-->
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
