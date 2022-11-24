@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
-<img alt="ава" src="{{ photo_url }}" width="100px" height="100px">
-{{ memory.first_name }} {{ memory.last_name }}
-<a href="{% url 'logout' %}">Выйти</a>
+<img alt="ава" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" width="100px" height="100px">
+{{ first_name }} {{ last_name }}
+<a href="{% url 'account_logout' %}">Выйти</a>
 <div class="container">
     <div class="row">
         <div class="col-4">
             {% if memory %}
                 {% for mem in memory %}
-                <h1><br><br>
-                    {{ mem.author }}
-                    {{ mem.title }}
-                </h1><br>
+                <br><br>
+                    <h3>{{ mem.title }}</h3>
+                    <p>{{ mem.description }}</p>
+                <br>
                 {% endfor %}
             <a class="btn btn-primary btn-lg" href="#" role="button">+ создать воспоминание</a>
             {% else %}
