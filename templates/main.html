@@ -1,10 +1,56 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
-sdfsdf
+<img alt="ава" src="{{ photo_url }}" width="100px" height="100px">
+{{ memory.first_name }} {{ memory.last_name }}
+<a href="{% url 'logout' %}">Выйти</a>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            {% if memory %}
+                {% for mem in memory %}
+                <h1><br><br>
+                    {{ mem.author }}
+                    {{ mem.title }}
+                </h1><br>
+                {% endfor %}
+            <a class="btn btn-primary btn-lg" href="#" role="button">+ создать воспоминание</a>
+            {% else %}
+            <div class="text-center">
+                <h3>У вас нет ни одного воспомнинания!</h3>
+                <a class="btn btn-primary btn-lg" href="#" role="button">Создать воспоминание</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-8">
+            <div class="text-center">
+                <div id="map" style="width:100%;height:400px;"></div>
+
+                <script>
+                    function myMap() {
+                        var mapCanvas = document.getElementById("map");
+                        var mapOptions = {
+                            center: new google.maps.LatLng(51.5, -0.2), zoom: 10
+                        };
+                        var map = new google.maps.Map(mapCanvas, mapOptions);
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR8P72HMX3zllKeeZt8X89dJWMEu0LSX8&callback=myMap" async
+        defer></script>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
