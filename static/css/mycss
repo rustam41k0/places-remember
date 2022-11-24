@@ -1,7 +1,0 @@
-.col-6 {
-    padding-top: 15%;
-}
-
-.col-6 h1 {
-    margin-bottom: 50px;
-}
