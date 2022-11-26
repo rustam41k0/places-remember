@@ -2,55 +2,63 @@
 {% load static %}
 <html lang="en">
 <head>
+    <title>Title</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'js/map.css' %}"/>#}
+    <link rel="stylesheet" type="text/css" href="https:///unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https:///unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
-<body>
-<img alt="ава" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" width="100px" height="100px">
-{{ first_name }} {{ last_name }}
-<a href="{% url 'account_logout' %}">Выйти</a>
-<div class="container">
-    <div class="row">
-        <div class="col-4">
-            {% if memory %}
-                {% for mem in memory %}
-                <br><br>
-                    <h3>{{ mem.title }}</h3>
-                    <p>{{ mem.description }}</p>
-                <br>
-                {% endfor %}
-            <a class="btn btn-primary btn-lg" href="#" role="button">+ создать воспоминание</a>
-            {% else %}
-            <div class="text-center">
-                <h3>У вас нет ни одного воспомнинания!</h3>
-                <a class="btn btn-primary btn-lg" href="#" role="button">Создать воспоминание</a>
-            </div>
-            {% endif %}
-        </div>
-        <div class="col-8">
-            <div class="text-center">
-                <div id="map" style="width:100%;height:400px;"></div>
 
-                <script>
-                    function myMap() {
-                        var mapCanvas = document.getElementById("map");
-                        var mapOptions = {
-                            center: new google.maps.LatLng(51.5, -0.2), zoom: 10
-                        };
-                        var map = new google.maps.Map(mapCanvas, mapOptions);
-                    }
-                </script>
+<body>
+{% if user.is_authenticated %}
+    <img alt="ава" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" width="100px" height="100px">
+    {{ first_name }} {{ last_name }}
+    <a href="{% url 'account_logout' %}">Выйти</a>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                {% if memory %}
+                    {% for mem in memory %}
+                        <br><br>
+                        <a href='#'></a><h3>{{ mem.title }}</h3>
+                        <p>{{ mem.description }}</p>
+                        {{ mem.location }}
+                        <br>
+                    {% endfor %}
+                    <a class="btn btn-primary btn-lg" href="#" role="button">+ создать воспоминание</a>
+                {% else %}
+                    <div class="text-center">
+                        <h3>У вас нет ни одного воспомнинания!</h3>
+                        <a class="btn btn-primary btn-lg" href="#" role="button">Создать воспоминание</a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-8 text-center">
+                <div id="map"></div>
             </div>
         </div>
     </div>
-</div>
-
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR8P72HMX3zllKeeZt8X89dJWMEu0LSX8&callback=myMap" async
-        defer></script>
+{% else %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-center">
+                <h3>Прежде чем посмотреть воспомнинания нужно <a href="{% url 'log' %}">ВОЙТИ</a> в свой аккаунт
+                </h3>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+{% endif %}
+{#style="width:110%;height:600px;"#}
+{#<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR8P72HMX3zllKeeZt8X89dJWMEu0LSX8&callback=myMap" async#}
+{#        defer></script>#}
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
 </body>
 </html>

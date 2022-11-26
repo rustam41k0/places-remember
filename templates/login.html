@@ -17,8 +17,13 @@
                 <h5>Привет! Этот сайт поможет вам не забыть ни одного прекраского
                     мнгновения проведенного в разных уголках планеты, но прежде чем начать...</h5><br>
                 <h5>Авторизуйтесь через:</h5>
+{#                <form method="post">#}
+{#                    <input type="hidden" name="csrfmiddlewaretoken"#}
+{#                           value="I9sZXzWXij2Km2cABFBthYVEDu8vRT1QV6COLDHuf02Lv8ffPrOrqPXlpIJK4XUE">#}
+{#                    <button type="submit">Continue</button>#}
+{#                </form>#}
                 <a class="btn btn-primary btn-lg " role="button"
-                   href="http://localhost:8000/accounts/vk/login/callback/">Вконтакте</a>
+                   href="{% url 'vk_login' %}">Вконтакте</a>
                 <a class="btn btn-danger btn-lg btn-block" role="button"
                    href="{% url 'google_callback' %}">Google</a>
             </div>
