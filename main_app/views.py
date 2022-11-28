@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.shortcuts import render
+from django.views.generic import ListView, UpdateView, CreateView
 from main_app.models import Memory
 
 
@@ -17,7 +17,17 @@ class MemoriesView(ListView):
         current_user = User.objects.get(id=self.request.user.id)
         context['first_name'] = current_user.first_name
         context['last_name'] = current_user.last_name
+
+        memories = Memory.objects.all()
+        coords = [[memory.location.x, memory.location.y] for memory in memories]
+        context["coordinates"] = coords
         return context
+
+
+class MemoryCreateView(CreateView):
+    model = Memory
+    template_name = 'addmemory.html'
+    fields = ['title', 'description', 'location']
 
 
 def login_view(request):

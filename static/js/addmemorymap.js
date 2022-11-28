@@ -40,30 +40,32 @@ function initMap() {
     // Map initialization
     const map = new ol.Map({
         controls: map_controls_settings,
-        layers: [map_layer_settings],
+        layers: [
+            map_layer_settings,
+            new ol.layer.Vector({
+                source: vectorSource
+            })],
         target: 'map',
         view: map_view_settings,
     });
 
-    coordinates.forEach(generate_markers)
+    var addedMarker = new ol.geom.Point([
+        ol.proj.transform(coords, 'EPSG:4326', 'EPSG:3857')]);
+
+    var featurething = new ol.Feature({
+        name: "Marker 01",
+        geometry: addedMarker
+    });
+
+    vectorSource.addFeature(featurething);
 
     const layer = new ol.layer.Vector({
         source: new ol.source.Vector({
-            features: dots
+            features: new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat([4.35247, 50.84673]))
+            })
         })
     });
+
     map.addLayer(layer);
-
-
 }
-
-/**
- * Generate marker points for OpenLayers map using coordinates
- * @param  {Array} currentValue current value of array element in forEach loop
- */
-function generate_markers(currentValue) {
-    dots.push(
-        new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.fromLonLat([currentValue[0], currentValue[1]]))
-        }))
-    }

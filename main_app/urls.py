@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import login_view, MemoriesView
+from .views import login_view, MemoriesView, MemoryCreateView
 
 urlpatterns = [
     path('memories/', MemoriesView.as_view(), name='memories'),
-    path('memories/log', login_view, name='log'),
+    path('sign-in/', login_view, name='sign_in'),
+    path('add-memory/', MemoryCreateView.as_view(), name='memory_create'),
 ]
