@@ -2,7 +2,7 @@
 {% load static %}
 <html lang="en">
 <head>
-    <title>Title</title>
+    <title>Memories</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -15,7 +15,7 @@
 
 <body>
 {% if user.is_authenticated %}
-    <img class="ava" alt="ава" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" width="70px" height="70px">
+    <img class="ava" alt="ава" src="{{ user.socialaccount_set.all.0.get_avatar_url }}">
     {{ first_name }} {{ last_name }}
     <a class="btn btn-outline-dark btn-sm" href="{% url 'account_logout' %}" role='button'>Выйти</a>
 
@@ -25,11 +25,10 @@
                 {% if memory %}
                     <a class="btn btn-outline-primary btn-lg" href="{% url 'memory_create' %}" role="button">+ создать
                         воспоминание</a>
-                    {% for mem in memory %}
+                    {% for mem in memory.reverse %}
                         <br><br>
                         <a href='#'></a><h3>{{ mem.title }}</h3>
                         <p>{{ mem.description }}</p>
-                        <p>{{ mem.location }}</p>
                     {% endfor %}
                 {% else %}
                     <div class="text-center">
@@ -39,7 +38,6 @@
                     </div>
                 {% endif %}
             </div>
-{#            {{ coordinates|safe }}#}
             <div class="col-8 text-center">
                 <div id="map"></div>
             </div>

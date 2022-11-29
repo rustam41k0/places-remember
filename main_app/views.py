@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.views.generic import ListView, UpdateView, CreateView
+from django.urls import reverse
+from django.views.generic import ListView, CreateView
+
 from main_app.models import Memory
 
 
@@ -14,13 +16,14 @@ class MemoriesView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
+
         current_user = User.objects.get(id=self.request.user.id)
         context['first_name'] = current_user.first_name
         context['last_name'] = current_user.last_name
 
-        memories = Memory.objects.all()
-        coords = [[memory.location.x, memory.location.y] for memory in memories]
-        context["coordinates"] = coords
+        memories = Memory.objects.filter(author__id=current_user.id)
+        coordinates = [[memory.location.x, memory.location.y] for memory in memories]
+        context["coordinates"] = coordinates
         return context
 
 
@@ -28,6 +31,13 @@ class MemoryCreateView(CreateView):
     model = Memory
     template_name = 'addmemory.html'
     fields = ['title', 'description', 'location']
+
+    def get_success_url(self):
+        return reverse('memories')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 def login_view(request):
