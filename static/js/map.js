@@ -6,33 +6,25 @@ const dots = [];
 
 document.addEventListener("DOMContentLoaded", initMap);
 
-/**
- * Initializing function, invokes on document "document ready" event.
- */
 function initMap() {
     // Map settings
-    // Docs: https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html
-    const map_layer_settings = new ol.layer.Tile({
-        source: new ol.source.OSM({
-            // Map source
-            url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            // Map authors
-            attributions: [ol.source.OSM.ATTRIBUTION, 'Tiles courtesy of <a href="https://geo6.be/">GEO-6</a>'],
-        })
-    })
-
     const map_view_settings = new ol.View({
         center: ol.proj.fromLonLat([DEFAULT_LON, DEFAULT_LAT]),
         maxZoom: 18,
         zoom: 12,
     })
 
+    const map_layer_settings = new ol.layer.Tile({
+        source: new ol.source.OSM({
+            url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            attributions: [ol.source.OSM.ATTRIBUTION, 'Tiles courtesy of <a href="https://geo6.be/">GEO-6</a>'],
+        })
+    })
+
     // Attribution settings
-    // Docs: https://openlayers.org/en/latest/examples/attributions.html
     const attribution = new ol.control.Attribution({
         collapsible: true // Hide attribution if size of screen will get too small
     });
-    // Docs: https://openlayers.org/en/latest/examples/overviewmap.html
     const map_controls_settings = ol.control.defaults({
         attribution: false // Hide attribution by default
     }).extend([attribution]);
@@ -53,17 +45,12 @@ function initMap() {
         })
     });
     map.addLayer(layer);
-
-
 }
 
-/**
- * Generate marker points for OpenLayers map using coordinates
- * @param  {Array} currentValue current value of array element in forEach loop
- */
+// Generate marker points for OpenLayers map using coordinates
 function generate_markers(currentValue) {
     dots.push(
         new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat([currentValue[0], currentValue[1]]))
         }))
-    }
+}
