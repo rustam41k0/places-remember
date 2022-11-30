@@ -25,7 +25,7 @@
             {% if memory %}
                 <a class="btn btn-outline-primary btn-lg" href="{% url 'memory_create' %}" role="button">+ создать
                     воспоминание</a>
-                {% for mem in memory.reverse %}
+                {% for mem in memory %}
                     <br><br>
                     <a href='#'></a><h3>{{ mem.title }}</h3>
                     <p>{{ mem.description }}</p>
