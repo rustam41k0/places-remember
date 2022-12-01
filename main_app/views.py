@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.urls import reverse
@@ -6,18 +7,17 @@ from django.views.generic import ListView, CreateView
 from main_app.models import Memory
 
 
-class MemoriesView(ListView):
+class MemoriesView(LoginRequiredMixin, ListView):
     model = Memory
     template_name = 'main.html'
     context_object_name = 'memory'
 
     def get_queryset(self):
-        return get_list_or_404(Memory, author__id=self.request.user.id)
+        return Memory.objects.filter(author__id=self.request.user.id)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-
-        current_user = get_object_or_404(User, id=self.request.user.id)
+        current_user = User.objects.get(id=self.request.user.id)
         context['first_name'] = current_user.first_name
         context['last_name'] = current_user.last_name
 
@@ -27,7 +27,7 @@ class MemoriesView(ListView):
         return context
 
 
-class MemoryCreateView(CreateView):
+class MemoryCreateView(LoginRequiredMixin, CreateView):
     model = Memory
     template_name = 'addmemory.html'
     fields = ['title', 'description', 'location']
