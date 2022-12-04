@@ -1,8 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, TemplateView
 
 from main_app.models import Memory
 
@@ -40,5 +39,5 @@ class MemoryCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-def login_view(request):
-    return render(request, 'login.html')
+class LoginView(TemplateView):
+    template_name = 'login.html'
