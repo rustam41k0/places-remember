@@ -72,13 +72,12 @@ class MemoriesCreateViewTestCase(TestCase):
 
     def test_form_cool(self):
         current_user = User.objects.get(username='testuser')
-        self.client.force_login(current_user)
-        self.client.post(reverse('memory_create'))
-        # {'author': current_user,
-        #  'title': 'test_title',
-        #  'description': 'test_description',
-        #  'location': Point(60, 60),
-        #  }
-        print(Memory.objects.count())
-        self.assertEqual(Memory.objects.count(), 1)
+        form_data = {'author': current_user,
+                     'title': 'test_title',
+                     'description': 'test_description',
+                     'location': Point(60, 60),
+                     }
 
+        self.client.force_login(current_user)
+        self.client.post(reverse('memory_create'), data=form_data)
+        print(Memory.objects.count(), '- count')
